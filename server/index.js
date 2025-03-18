@@ -2,11 +2,18 @@ import mongoose from 'mongoose';
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+
+
+
 dotenv.config();
 
-
+import {postProducts} from "./controllers/Product.js"
+import { postSignup ,postLogin} from './controllers/User.js';
+import {jwtVerifyMiddleware,checkRoleMiddleware} from "./middlewares/auth.js"
 const app =express();
+app.use(express.json());
 app.use(cors());
+
 
 //Connect to MongoDb
 const connectDB=async()=>{
@@ -22,7 +29,12 @@ app.get("/health",(req,res)=>{
         success:true,
         message:"server is running",
     })
-})
+});
+
+//auth 
+app.post("/signup",postSignup);
+app.post("/login",postLogin)
+app.post("/products",jwtVerifyMiddleware,checkRoleMiddleware,postProducts);
 
 app.use("*" ,(req,res)=>{
     res.status(404).json({success:false,message:"API endpoint doesn't exists"});
