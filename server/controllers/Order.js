@@ -1,6 +1,10 @@
 import Order from "./../models/Order.js";
 
 const postOrders= async (req,res)=>{
+    console.log("User info:" ,req.user);
+    if(!req.user || !req.user._id){
+        return res.status(401).json({success:false,message:"User not authentocated"})
+    }
     const {
         products,
         
@@ -136,4 +140,50 @@ return res.json({
 }
 
 
-export {postOrders,putOrders}
+const getOrderById = async(req,res)=>{
+    const user=req.user;
+    
+    const {id}= req.params;
+
+    let order;
+    try{
+       
+        order=await Order.findById(id).populate("userId", "name email").populate("products.productId","-shortDescription -longDescription -image -category -tags -_v -createdAt -updatedAt").populate("paymentId","-__v -createdAt -updatedAt") 
+        if(!order){
+            return res.status(404).json({
+                success:false,
+                message:"Order not Found",
+            })
+        }
+        if(!order.userId){
+            return res.status(400).json({
+                success:false,
+                message:"Order has no associated user"
+            })
+        }
+    }
+    catch(error){
+        return res.status(400).json({success:false,message:error.message});
+    }
+
+    if(!order.userId){
+        return res.status(400).json({
+            success:false,message:"Order has no associated user me"
+        })
+    }
+
+    if(user._id!=order.userId._id && user.role!="admin"){
+return res.status(401).json({
+    success:false,
+    message:"You are not authorized to view this order",
+})
+    }
+
+    return res.json({
+        success:true,
+        message:"Order fetched successfully",
+        data:order,
+    })
+}
+
+export {postOrders,putOrders,getOrderById}
