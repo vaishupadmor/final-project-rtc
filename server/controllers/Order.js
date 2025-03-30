@@ -186,4 +186,24 @@ return res.status(401).json({
     })
 }
 
-export {postOrders,putOrders,getOrderById}
+const getOrdersByUserId=async(req,res)=>{
+    const {id}=req.params;
+    const user=req.user;
+
+    if(user.role!="admin" && user._id!=id){
+        return res.status(401).json({
+              success:false,
+              message:"you are not authorized to view this orders",
+        })
+    }
+
+    const orders =await Order.find({userId :id}).populate("userId", "name email").populate("products.productId","-shortDescription -longDescription -image -category -tags -_v -createdAt -updatedAt").populate("paymentId","-__v -createdAt -updatedAt") ;
+
+return res.json({
+    success:true,
+    message:"Orders fetched successfully",
+    data:orders,
+})
+}
+
+export {postOrders,putOrders,getOrderById,getOrdersByUserId}

@@ -9,7 +9,7 @@ dotenv.config();
 
 import {postPayments} from "./controllers/Payment.js"
 import {postProducts,getProducts} from "./controllers/Product.js"
-import {postOrders,putOrders,getOrderById} from "./controllers/Order.js"
+import {postOrders,putOrders,getOrderById,getOrdersByUserId} from "./controllers/Order.js"
 import { postSignup ,postLogin} from './controllers/User.js';
 import {jwtVerifyMiddleware,checkRoleMiddleware} from "./middlewares/auth.js"
 const app =express();
@@ -45,7 +45,7 @@ app.get("/products",getProducts);
 app.post("/orders",jwtVerifyMiddleware,postOrders);
 app.put("/orders/:id",jwtVerifyMiddleware,putOrders);
 app.get("/orders/:id",jwtVerifyMiddleware,getOrderById)
-
+app.get("/orders/user/:id",jwtVerifyMiddleware,getOrdersByUserId);
 //payments
 app.post("/payments",postPayments);
 
