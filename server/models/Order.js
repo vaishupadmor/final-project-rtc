@@ -2,7 +2,7 @@ import {model,Schema} from "mongoose";
 
 const orderSchema = new Schema({
     userId:{
-        type:Schema.type.ObjectId,
+        type:Schema.Types.ObjectId,
         ref:"User",
         required:true,
     },
@@ -43,7 +43,7 @@ const orderSchema = new Schema({
     paymentId:{
         type:Schema.Types.ObjectId,
         ref:"payment",
-        required:true,
+        
     },
 
     status:{

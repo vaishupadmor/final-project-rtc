@@ -7,7 +7,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-import {postProducts} from "./controllers/Product.js"
+import {postPayments} from "./controllers/Payment.js"
+import {postProducts,getProducts} from "./controllers/Product.js"
+import {postOrders,putOrders} from "./controllers/Order.js"
 import { postSignup ,postLogin} from './controllers/User.js';
 import {jwtVerifyMiddleware,checkRoleMiddleware} from "./middlewares/auth.js"
 const app =express();
@@ -35,6 +37,10 @@ app.get("/health",(req,res)=>{
 app.post("/signup",postSignup);
 app.post("/login",postLogin)
 app.post("/products",jwtVerifyMiddleware,checkRoleMiddleware,postProducts);
+app.get("/products",getProducts);
+app.post("/orders",jwtVerifyMiddleware,postOrders);
+app.put("/orders/:id",jwtVerifyMiddleware,putOrders);
+app.post("/payments",postPayments);
 
 app.use("*" ,(req,res)=>{
     res.status(404).json({success:false,message:"API endpoint doesn't exists"});

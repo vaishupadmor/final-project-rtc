@@ -43,4 +43,33 @@ try{
 }
 }
 
-export {postProducts}
+
+const getProducts=async(req,res)=>{
+    const {limit,search} =req.query;
+
+ const products =await Product.find(
+    {
+        name:{
+            $regex:new RegExp(search || ""),
+            $options:"i"
+        },
+        shortDescription:{
+            $regex:new RegExp(search || ""),
+            $options:"i"
+        },
+        longDescription:{
+            $regex:new RegExp(search || ""),
+            $options:"i"
+        }
+    }
+ ).limit(parseInt(limit || 100));
+
+ return res.json({
+    success:true,
+    data:products,
+    message:"Products fetched successfully"
+ })
+}
+
+
+export {postProducts,getProducts}

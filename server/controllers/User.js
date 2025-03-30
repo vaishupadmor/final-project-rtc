@@ -80,10 +80,10 @@ if(!user)
     const isPasswordMatch =bcrypt.compareSync(password,user.password);
     if(isPasswordMatch)
         {   
-            const jwtToken = jwt.sign({email:user.email,role:user.role},process.env.JWT_SECRET)
+            const jwtToken = jwt.sign({email:user.email,role:user.role,_id:user._id},process.env.JWT_SECRET)
            res.setHeader("Authorization",`Bearer ${jwtToken}`);
 
-            return res.status(400).json({success:true,token:jwtToken,message:"Login successfully"})
+            return res.status(200).json({success:true,token:jwtToken,message:"Login successfully"})
         }
     else{
         return res.status(400).json({success:false,message:"Invalid Credentials"})
