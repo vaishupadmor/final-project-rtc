@@ -4,7 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 
 
-
+import { responder } from './utils/utils.js';
 dotenv.config();
 
 import {postPayments} from "./controllers/Payment.js"
@@ -27,10 +27,7 @@ const connectDB=async()=>{
 };
 
 app.get("/health",(req,res)=>{
-    res.json({
-        success:true,
-        message:"server is running",
-    })
+    return responder(res,true,"Server is running");
 });
 
 //auth 
@@ -50,7 +47,8 @@ app.get("/orders/user/:id",jwtVerifyMiddleware,getOrdersByUserId);
 app.post("/payments",postPayments);
 
 app.use("*" ,(req,res)=>{
-    res.status(404).json({success:false,message:"API endpoint doesn't exists"});
+   
+return responder(res,false,"API endpoint doesnot exists",null ,404);
 })
 
 const PORT =process.env.PORT ||5000;
