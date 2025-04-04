@@ -49,7 +49,7 @@ const salt = bcrypt.genSaltSync(10);
 
                     return res.json({
                         success:true,
-                        message:"SignUp Successfull",
+                        message:"SignUp Successfull ,please Login",
                         data:{
                             name:savedUser.name,
                             email:savedUser.email,
@@ -57,9 +57,16 @@ const salt = bcrypt.genSaltSync(10);
                             address:savedUser.address,
                         },
                     });
-                }catch(error)
+                }
+                catch(error)
+                
                 {
-return res.status(400).json({success:false,message:error.message});
+                    console.log(error.keyValue)
+                        if(error.message.includes("duplicate key error")){
+                    return res.status(400).json({success:false,message:`${Object.keys(error.keyValue)} '${Object.values(error.keyValue)}' already exists`,});
+                }
+                   
+                    return res.status(400).json({success:false,message:error.message});
                 }
 
 };
