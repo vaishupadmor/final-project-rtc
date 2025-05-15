@@ -2,9 +2,9 @@ import React,{useState} from 'react'
 import {shortText} from "../utils/common.js"
 import { Plus as PlusIcon, Minus as MinusIcon,ChevronLeft as LeftArrow,ChevronRight as RightArrow } from 'lucide-react'
 import Button from './Button.js'
+import toast,{Toaster} from "react-hot-toast"
 
-
-function ProductCard({name,price,currentPrice,shortDescription,longDescription,tags,images,category}) {
+function ProductCard({_id,name,price,currentPrice,shortDescription,longDescription,tags,images,category}) {
     
 const [currentImage ,setCurrentImage] = useState(images[0])
 const [quantity ,setQuantity] = useState(1);  
@@ -20,6 +20,36 @@ const rightArrowClick = ()=>{
     const currentIndex = images.indexOf(currentImage);
     const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
     setCurrentImage(images[newIndex])
+}
+
+const handleAddToCart=()=>{
+    const cart=JSON.parse(localStorage.getItem("cart") || "[]");
+    
+const product= {
+    productId:_id,
+    quantity:quantity,
+    name:name,
+    image:currentImage,
+    price:currentPrice,
+};
+
+let existingProductIndex= -1;
+cart.forEach((item ,index) => {
+    if(item.productId === _id){
+        existingProductIndex=index
+    }
+});
+
+if(existingProductIndex > -1){
+    cart[existingProductIndex].quantity =quantity;
+}else{
+cart.push(product)
+}
+
+
+    localStorage.setItem("cart",JSON.stringify(cart))
+
+    toast.success("Product added successfully")
 }
 
 return (
@@ -70,8 +100,9 @@ return (
 
 </div>
         <div className='flex justify-center mt-5'>
-            <Button label="Add to cart" variant="primary" />
+            <Button label="Add to cart" variant="primary" onClick={handleAddToCart} />
         </div>
+        <Toaster/>
         </div>
   )
 }

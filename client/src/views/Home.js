@@ -3,6 +3,8 @@ import React, { useEffect,useState } from 'react'
 import toast ,{Toaster} from 'react-hot-toast';
 import ProductCard from '../components/ProductCard';
 import HomeImg from "./Ecommerce-page-bro.png"
+import cartIcon from "../assets/cart.png"
+import { Link } from 'react-router-dom';
 
  function Home() {
 
@@ -48,6 +50,13 @@ import HomeImg from "./Ecommerce-page-bro.png"
 return <ProductCard  key={product._id} {...product}/>
       })}
       </div>
+      <Link to="user/cart" >
+      <img 
+      src={cartIcon}
+      alt='shopping cart'
+      className='fixed top-10 right-10 w-16 h-16 cursor-pointer bg-white rounded-full shadow-lg'
+      />
+      </Link>
       <Toaster/>
     </div>
   )

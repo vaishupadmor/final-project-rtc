@@ -8,6 +8,7 @@ import Home from "./views/Home.js"
 import NotFound from './views/NotFound.js';
 import Dashboard from './views/Dashboard.js';
 import UserOrders from './views/UserOrders.js'
+import Cart from "./views/Cart.js"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -27,6 +28,10 @@ const router=createBrowserRouter([
 {
   path:"/user/orders",
   element:<UserOrders/>
+},
+{
+  path:"/user/cart",
+  element:<Cart/>
 },
 {
   path:"/signup",
