@@ -27,14 +27,14 @@ function Signup() {
       toast.dismiss();
     
       toast.success(response.data.message);
-     // setSignupData({
-    //name:"",
-    //email:"",
-    //phone:"",
-    //address:"",
-    //password:"",
-    //rePassword:"",
-      //})
+      setSignupData({
+    name:"",
+    email:"",
+    phone:"",
+    address:"",
+    password:"",
+    rePassword:"",
+      })
     setTimeout(()=>{
       window.location.href="/login";
     },2000)
@@ -46,7 +46,7 @@ function Signup() {
    }
 }
   return (
-  <div className='bg-zinc-100 min-h-scrren flex flex-col items-center justify-center px-5'> 
+  <div className=' min-h-scrren flex flex-col items-center justify-center px-5'> 
     
     <h1 className='text-3xl mb-4 text-gray-600'> Signup</h1>
      <div className='md:w-[450px] bg-white rounded-2xl shadow-lg hover:shadow-xl px-10 py-6'>

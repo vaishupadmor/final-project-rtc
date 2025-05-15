@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
+import session from "express-session";
 
 import { responder } from './utils/utils.js';
 dotenv.config();
@@ -13,10 +14,26 @@ import {postOrders,putOrders,getOrderById,getOrdersByUserId} from "./controllers
 import { postSignup ,postLogin} from './controllers/User.js';
 import {jwtVerifyMiddleware,checkRoleMiddleware} from "./middlewares/auth.js"
 const app =express();
+
+app.use(
+    cors({
+      origin: "http://localhost:3000",
+      credentials: true,
+      allowedHeaders: ["Content-Type", "Authorization"],
+       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    })
+  );
 app.use(express.json());
-app.use(cors());
 
 
+
+  
+  app.use(
+    session({
+      secret: "test secret",
+      cookie: { maxAge: 1000 * 60 * 60, httpOnly: false, secure: false },
+    })
+  );
 //Connect to MongoDb
 const connectDB=async()=>{
     const conn=await mongoose.connect(process.env.MONGO_URI);
@@ -26,9 +43,9 @@ const connectDB=async()=>{
     }
 };
 
-app.get("/health",(req,res)=>{
-    return responder(res,true,"Server is running");
-});
+app.get("/health", jwtVerifyMiddleware, (req, res) => {
+    return responder(res, true, "Server is running");
+  });
 
 //auth 
 app.post("/signup",postSignup);

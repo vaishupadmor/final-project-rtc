@@ -1,52 +1,59 @@
 import Order from "./../models/Order.js";
 import { responder } from "../utils/utils.js";
 
-const postOrders= async (req,res)=>{
-    console.log("User info:" ,req.user);
-    if(!req.user || !req.user._id){
-        return res.status(401).json({success:false,message:"User not authentocated"})
-    
+import Product from "../models/Product.js"; // Ensure you have this import
+
+const postOrders = async (req, res) => {
+  console.log("User info:", req.user);
+
+  if (!req.user || !req.user._id) {
+    return res.status(401).json({ success: false, message: "User not authenticated" });
+  }
+
+  const { products, deliveryAddress, phone, paymentMode } = req.body;
+
+  if (!products || !deliveryAddress || !phone || !paymentMode) {
+    return responder(
+      res,
+      false,
+      `products, deliveryAddress, phone, and paymentMode are required`,
+      null,
+      400
+    );
+  }
+
+  let totalBill = 0;
+  const validatedProducts = [];
+
+  for (const item of products) {
+    const productDoc = await Product.findById(item.productId);
+    if (productDoc) {
+      validatedProducts.push(item);
+      totalBill += item.price * item.quantity;
     }
-    const {
-        products,
-        
-        deliveryAddress,
-        phone,
-        paymentMode,
-        
-        
-    }=req.body;
-if(!products  || !deliveryAddress || !phone || !paymentMode ){
-    return responder(res,
-        false,`products,totalBill,deliveryAddress,phone,paymentMode are required` 
-        ,null ,400)
-}
-
-let totalBill =0;
-
-products.forEach((product) => {
-    totalBill += product.price * product.quantity;
-})
-
-try{
-const newOrder = new Order({
-    userId:req.user._id,
-    products,
-    totalBill,
-    deliveryAddress,
-    phone,
-    paymentMode,
-});
-
-const savedOrder = await newOrder.save();
-return responder(res, true,"Order placed successfully",savedOrder,savedOrder,201);
-
-  }
-  catch(error){
-    return responder(res,false,error.message,null,400);
   }
 
+  if (validatedProducts.length === 0) {
+    return responder(res, false, "No valid products found in order", null, 400);
+  }
+
+  try {
+    const newOrder = new Order({
+      userId: req.user._id,
+      products: validatedProducts,
+      totalBill,
+      deliveryAddress,
+      phone,
+      paymentMode,
+    });
+
+    const savedOrder = await newOrder.save();
+    return responder(res, true, "Order placed successfully", savedOrder, 201);
+  } catch (error) {
+    return responder(res, false, error.message, null, 400);
+  }
 };
+
 
 const putOrders =async (req,res)=>{
      const user= req.user;

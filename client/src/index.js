@@ -6,7 +6,8 @@ import Signup from "./views/Signup.js"
 import Login from "./views/Login.js"
 import Home from "./views/Home.js"
 import NotFound from './views/NotFound.js';
-
+import Dashboard from './views/Dashboard.js';
+import UserOrders from './views/UserOrders.js'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -20,6 +21,14 @@ const router=createBrowserRouter([
   element:<Login/>
 },
 {
+  path:"/dashboard",
+  element:<Dashboard/>
+},
+{
+  path:"/user/orders",
+  element:<UserOrders/>
+},
+{
   path:"/signup",
   element:<Signup/>
 },
@@ -29,9 +38,9 @@ const router=createBrowserRouter([
 }
 ])
 root.render(
-  <>
- <RouterProvider router={router}/>
-  </>
+  <div className='bg-zinc-100 min-h-screen'>
+    <RouterProvider router={router}/>
+  </div>
 );
 
 
