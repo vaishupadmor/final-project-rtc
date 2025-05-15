@@ -35,7 +35,7 @@ function Dashboard() {
         </h1>
         <div className='bg-white w-[500px] mx-auto p-10 rounded-lg shadow-lg mt-10'>
             <div className='flex bg-grey-100 mb-10 pb-10'>
-                <Link to="users/orders" className='block text-center text-xs mb-4 mx-2 bg-blue-100 p-2'>
+                <Link to="/user/orders" className='block text-center text-xs mb-4 mx-2 bg-blue-100 p-2'>
                 <TruckIcon className='mx-auto inline' size={24}/>
             <span className='text-xs'> My Orders</span>
             </Link>
