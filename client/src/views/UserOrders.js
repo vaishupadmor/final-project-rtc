@@ -24,7 +24,7 @@ function UserOrders() {
     
       const response = await api.get(`/orders/user/${user._id}`);
 
-       console.log(response); // For debugging: see what the actual response is like
+       console.log(response); 
 
     setOrders(response?.data?.data || response?.data || []); // Handle potential structure issues
   } catch (error) {

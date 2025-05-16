@@ -105,11 +105,7 @@ const placeOrder=async ()=>{
         "paymentMode":paymentMode,
         "phone":phone,
     }
-const response =await api.post(`/orders`,orderBody,{
-    headers:{
-    "Authorization":getJwtToken(),
-    },
-});
+const response =await api.post(`/orders`,orderBody);
 
 toast.success("Order Placed successfully");
 localStorage.removeItem("cart");

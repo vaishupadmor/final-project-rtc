@@ -161,17 +161,29 @@ const getOrderById = async(req,res)=>{
     return responder(res,true,"Order fetched successfully",order,200);
 }
 
-const getOrdersByUserId=async(req,res)=>{
-    const {id}=req.params;
-    const user=req.user;
+const getOrdersByUserId = async (req, res) => {
+  const { id } = req.params;
+  const user = req.user;
 
-    if(user.role!="admin" && user._id!=id){
-         return responder(res,false,"you are not authorized to view this orders",null,401);
-    }
+  if (user.role !== "admin" && user._id.toString() !== id.toString()) {
+    return responder(res, false, "You are not authorized to view these orders", null, 401);
+  }
 
-    const orders =await Order.find({userId :id})
-    .sort({createdAt :-1}).populate("userId", "name email").populate("products.productId","-shortDescription -longDescription -image -category -tags -_v -createdAt -updatedAt").populate("paymentId","-__v -createdAt -updatedAt") ;
-        return responder(res,true,"Orders fetched successfully",orders,200)
-}
+  try {
+    const orders = await Order.find({ userId: id })
+      .sort({ createdAt: -1 })
+      .populate("userId", "name email")
+      .populate(
+        "products.productId",
+        "-shortDescription -longDescription -image -category -tags -__v -createdAt -updatedAt"
+      )
+      .populate("paymentId", "-__v -createdAt -updatedAt");
+
+    return responder(res, true, "Orders fetched successfully", orders, 200);
+  } catch (error) {
+    return responder(res, false, error.message || "Failed to fetch orders", null, 500);
+  }
+};
+
 
 export {postOrders,putOrders,getOrderById,getOrdersByUserId}

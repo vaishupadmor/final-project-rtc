@@ -17,7 +17,7 @@ const app =express();
 
 app.use(
     cors({
-      origin: "http://localhost:3000",
+      origin: "https://ecommerce-website-2-1.onrender.com",
       credentials: true,
       allowedHeaders: ["Content-Type", "Authorization"],
        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]

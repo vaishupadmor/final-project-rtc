@@ -1,10 +1,11 @@
-import axios from 'axios';
+
 import React, { useEffect,useState } from 'react'
 import toast ,{Toaster} from 'react-hot-toast';
 import ProductCard from '../components/ProductCard';
 import HomeImg from "./Ecommerce-page-bro.png"
 import cartIcon from "../assets/cart.png"
 import { Link } from 'react-router-dom';
+import {api} from "../utils/common.js"
 
  function Home() {
 
@@ -14,7 +15,7 @@ import { Link } from 'react-router-dom';
   
   const loadProducts=async()=>{
     try{
-    const response =await axios.get(`${process.env.REACT_APP_API_URL}/products?limit=100&search=${search}`)
+    const response =await api.get(`/products?limit=100&search=${search}`)
   
 
     setProducts(response.data.data)
