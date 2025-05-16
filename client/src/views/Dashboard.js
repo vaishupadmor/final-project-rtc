@@ -39,15 +39,15 @@ function Dashboard() {
                 <TruckIcon className='mx-auto inline' size={24}/>
             <span className='text-xs'> My Orders</span>
             </Link>
-            <Link to="/orders" className='block text-center text-xs mb-4 mx-2 bg-blue-100 p-2'>
+            <Link to="/user/orders" className='block text-center text-xs mb-4 mx-2 bg-blue-100 p-2'>
                 <TruckIcon className='mx-auto inline' size={24}/>
             <span className='text-xs'> My Orders</span>
             </Link>
-            <Link to="/orders" className='block text-center text-xs mb-4 mx-2 bg-blue-100 p-2'>
+            <Link to="/user/orders" className='block text-center text-xs mb-4 mx-2 bg-blue-100 p-2'>
                 <TruckIcon className='mx-auto inline' size={24}/>
             <span className='text-xs'> My Orders</span>
             </Link>
-           <Link to="/orders" className='block text-center text-xs mb-4 mx-2 bg-blue-100 p-2'>
+           <Link to="/user/orders" className='block text-center text-xs mb-4 mx-2 bg-blue-100 p-2'>
                 <TruckIcon className='mx-auto inline' size={24}/>
             <span className='text-xs'> My Orders</span>
             </Link>

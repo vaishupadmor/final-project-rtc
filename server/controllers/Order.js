@@ -169,7 +169,8 @@ const getOrdersByUserId=async(req,res)=>{
          return responder(res,false,"you are not authorized to view this orders",null,401);
     }
 
-    const orders =await Order.find({userId :id}).populate("userId", "name email").populate("products.productId","-shortDescription -longDescription -image -category -tags -_v -createdAt -updatedAt").populate("paymentId","-__v -createdAt -updatedAt") ;
+    const orders =await Order.find({userId :id})
+    .sort({createdAt :-1}).populate("userId", "name email").populate("products.productId","-shortDescription -longDescription -image -category -tags -_v -createdAt -updatedAt").populate("paymentId","-__v -createdAt -updatedAt") ;
         return responder(res,true,"Orders fetched successfully",orders,200)
 }
 

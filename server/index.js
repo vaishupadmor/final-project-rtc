@@ -27,6 +27,7 @@ app.use(express.json());
 
 
 
+
   
   app.use(
     session({
@@ -43,9 +44,16 @@ const connectDB=async()=>{
     }
 };
 
-app.get("/health", jwtVerifyMiddleware, (req, res) => {
-    return responder(res, true, "Server is running");
-  });
+app.get("/health",jwtVerifyMiddleware, (req, res) => {
+ 
+  return responder(res, true, "Server is running");
+ 
+});
+
+
+
+
+  
 
 //auth 
 app.post("/signup",postSignup);

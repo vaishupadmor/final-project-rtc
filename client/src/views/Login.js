@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import Input from '../components/Input.js'
 import Button from '../components/Button.js'
-import axios from 'axios';
+
 import toast ,{Toaster}from "react-hot-toast";
 import {Link} from 'react-router-dom';
 import { api, getCurrentUser } from "../utils/common";
@@ -18,7 +18,7 @@ function Login() {
   const processLogin =async () => {
    toast.loading("Please wait...");
    try{
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/login`,loginData);
+      const response = await api.post(`/login`,loginData);
       localStorage.setItem("e-commerce-user-token",response.data.token);
       localStorage.setItem("e-commerce-user-details", JSON.stringify(response.data.data));
       toast.dismiss();

@@ -1,10 +1,15 @@
-import axios from "axios";
+
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 
-import { getCurrentUser, getJwtToken,getReadableTimestamp } from "../utils/common";
+import { getCurrentUser,getReadableTimestamp ,api} from "../utils/common";
 import OrderCard from "../components/OrderCard";
+import HomeIcon from "../assets/Home.png"
+import { Link } from "react-router-dom";
+
+
+
 
 function UserOrders() {
   const [user, setUser] = useState({});
@@ -17,11 +22,7 @@ function UserOrders() {
 
     try {
     
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/orders/user/${user._id}`,{
-        headers:{
-            Authorization:getJwtToken()
-        }
-      });
+      const response = await api.get(`/orders/user/${user._id}`);
 
        console.log(response); // For debugging: see what the actual response is like
 
@@ -69,7 +70,9 @@ function UserOrders() {
     } = selectedOrder;
 
      return (
-      <div
+    
+      
+       <div
         className="min-h-screen bg-gray-400 fixed top-0 left-0 w-full bg-opacity-75 z-50 flex justify-center items-center"
         onClick={onClose}
       >
@@ -115,16 +118,20 @@ function UserOrders() {
           </p>
         </div>
       </div>
+   
     );
   };
 
   return (
-    <div>
+    <div >
+      <Link to="/">
+      <img src={HomeIcon} alt="Home" className="absolute top-2 right-10 w-16 h-16 cursor-pointer bg-white rounded-full shadow-lg" />
+      </Link>
       <h1>My Orders</h1>
       <p>
         Current user: {user.name} - {user.email}
       </p>
-      <div>
+      <div  className=" flex flex-col mt-24">
   {orders.length === 0 ? (
     <p>No orders found.</p>
   ) : (

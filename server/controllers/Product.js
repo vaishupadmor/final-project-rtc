@@ -45,23 +45,35 @@ try{
 
 
 const getProducts=async(req,res)=>{
-    const {limit,search} =req.query;
+    const {limit} =req.query;
 
+    let {search} =req.query;
+    search =search.replaceAll( "\\"," ");
+ 
  const products =await Product.find(
+   {
+    $or: [
     {
-        name:{
+       name:{
             $regex:new RegExp(search || ""),
             $options:"i"
-        },
+        }
+    },
+    {
         shortDescription:{
             $regex:new RegExp(search || ""),
             $options:"i"
-        },
+        }
+    },
+    {
         longDescription:{
             $regex:new RegExp(search || ""),
             $options:"i"
         }
     }
+    
+],
+   }
  ).limit(parseInt(limit || 100));
 
  return res.json({

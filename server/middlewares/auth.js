@@ -4,16 +4,16 @@ import jwt from "jsonwebtoken";
 
 // Authentication middleware
 const jwtVerifyMiddleware = async (req, res, next) => {
-  const authHeader = req.headers['authorization'];
+  const jwtToken =req.session.jwtToken;
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  if (!jwtToken ) {
     return res.status(401).json({
       success: false,
       message: "JWT token is missing",
     });
   }
 
-  const jwtToken = authHeader.split(" ")[1];
+  
 
   try {
     const decoded = jwt.verify(jwtToken, process.env.JWT_SECRET);
