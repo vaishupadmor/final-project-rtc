@@ -7,34 +7,32 @@ import session from "express-session";
 
 import { responder } from './utils/utils.js';
 dotenv.config();
-
-import {postPayments} from "./controllers/Payment.js"
-import {postProducts,getProducts} from "./controllers/Product.js"
-import {postOrders,putOrders,getOrderById,getOrdersByUserId} from "./controllers/Order.js"
-import { postSignup ,postLogin} from './controllers/User.js';
-import {jwtVerifyMiddleware,checkRoleMiddleware} from "./middlewares/auth.js"
 const app =express();
 
 app.use(
     cors({
-      origin: "https://ecommerce-website-2-1.onrender.com",
+      origin: "http://localhost:3000",
       credentials: true,
       allowedHeaders: ["Content-Type", "Authorization"],
        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     })
   );
-app.use(express.json());
 
+  app.use(express.json());
 
-
-
-  
-  app.use(
+app.use(
     session({
       secret: "test secret",
       cookie: { maxAge: 1000 * 60 * 60, httpOnly: false, secure: false },
     })
   );
+import {postPayments} from "./controllers/Payment.js"
+import {postProducts,getProducts} from "./controllers/Product.js"
+import {postOrders,putOrders,getOrderById,getOrdersByUserId} from "./controllers/Order.js"
+import { postSignup ,postLogin} from './controllers/User.js';
+import {jwtVerifyMiddleware,checkRoleMiddleware} from "./middlewares/auth.js"
+
+
 //Connect to MongoDb
 const connectDB=async()=>{
     const conn=await mongoose.connect(process.env.MONGO_URI);
@@ -44,7 +42,7 @@ const connectDB=async()=>{
     }
 };
 
-app.get("/health",jwtVerifyMiddleware, (req, res) => {
+app.get("/health", (req, res) => {
  
   return responder(res, true, "Server is running");
  
@@ -76,7 +74,7 @@ app.use("*" ,(req,res)=>{
 return responder(res,false,"API endpoint doesnot exists",null ,404);
 })
 
-const PORT =process.env.PORT ||5000;
+const PORT =process.env.PORT ||5002;
 
 app.listen(PORT,()=>{
     console.log(`server is running on port ${PORT}`);

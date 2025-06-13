@@ -134,6 +134,7 @@ const getOrderById = async(req,res)=>{
     const {id}= req.params;
 
     let order;
+    console.log("Fetching order ID:", id);
     try{
        
         order=await Order.findById(id).populate("userId", "name email").populate("products.productId","-shortDescription -longDescription -image -category -tags -_v -createdAt -updatedAt").populate("paymentId","-__v -createdAt -updatedAt") 
@@ -148,9 +149,7 @@ const getOrderById = async(req,res)=>{
         return responder(res,false,error.message,null,400);
     }
 
-    if(!order.userId){
-        return responder(res,false,"Order has no associated user me",null,400);
-    }
+    
 
     if(user._id!=order.userId._id && user.role!="admin"){
         return responder (res,false,"You are not authorized to view this order",null,401);
