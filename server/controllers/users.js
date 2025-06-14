@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "./../models/User.js";
+import User from "../models/User.js";
 
 const postSignup = async (req, res) => {
   const { name, email, phone, address, password, rePassword } = req.body;

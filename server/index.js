@@ -8,7 +8,7 @@ import session from "express-session";
 import { responder } from './utils/utils.js';
 dotenv.config();
 const app =express();
-
+app.use(express.json());
 app.use(
     cors({
       origin: "http://localhost:3000",
@@ -22,14 +22,16 @@ app.use(
 
 app.use(
     session({
-      secret: "test secret",
+      secret: "test_secret",
+      resave:false,
+      saveUninitialized:true,
       cookie: { maxAge: 1000 * 60 * 60, httpOnly: false, secure: false },
     })
   );
-import {postPayments} from "./controllers/Payment.js"
-import {postProducts,getProducts} from "./controllers/Product.js"
-import {postOrders,putOrders,getOrderById,getOrdersByUserId} from "./controllers/Order.js"
-import { postSignup ,postLogin} from './controllers/User.js';
+import {postPayments} from "./controllers/payments.js"
+import {postProducts,getProducts} from "./controllers/products.js"
+import {postOrders,putOrders,getOrderById,getOrdersByUserId} from "./controllers/orders.js"
+import { postSignup ,postLogin} from './controllers/users.js';
 import {jwtVerifyMiddleware,checkRoleMiddleware} from "./middlewares/auth.js"
 
 

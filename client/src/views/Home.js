@@ -83,7 +83,7 @@ function Home() {
       <Footer />
       <Toaster position="bottom-center" />
     </div>
-  );
+  )
 }
 
 export default Home;

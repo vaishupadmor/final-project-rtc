@@ -1,4 +1,4 @@
-import Order from "./../models/Order.js";
+import Order from "../models/Order.js";
 import { responder } from "../utils/utils.js";
 
 import Product from "../models/Product.js"; // Ensure you have this import
@@ -149,7 +149,7 @@ const getOrderById = async(req,res)=>{
         return responder(res,false,error.message,null,400);
     }
 
-    
+
 
     if(user._id!=order.userId._id && user.role!="admin"){
         return responder (res,false,"You are not authorized to view this order",null,401);
