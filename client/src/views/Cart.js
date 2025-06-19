@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import Input from "../components/Input.js"
+import Input from "../components/Input.js";
 import Button from '../components/Button';
 import { api } from '../utils/common.js';
+import Navbar from '../components/Navbar.js';
+import Footer from '../components/Footer.js';
 
 function Cart() {
   const [cart, setCart] = useState([]);
@@ -41,22 +43,19 @@ function Cart() {
   const CheckoutDialog = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
     return (
-      <div
-        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-        onClick={onClose}
-      >
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" onClick={onClose}>
         <div
-          className="bg-white p-8 rounded-2xl w-[400px] shadow-lg"
+          className="bg-white p-8 rounded-2xl w-[400px] shadow-2xl border border-pink-400 transition-all"
           onClick={e => e.stopPropagation()}
         >
-          <h2 className="text-2xl font-bold mb-6 text-blue-600 text-center">Checkout</h2>
+          <h2 className="text-2xl font-bold mb-6 text-pink-500 text-center">Checkout</h2>
           <Input label="Name" placeholder="Enter your name" val={name} onChange={setName} />
           <Input label="Address" placeholder="Enter your address" val={address} onChange={setAddress} />
           <Input label="Phone" placeholder="Enter your phone number" val={phone} onChange={setPhone} />
           <select
             value={paymentMode}
             onChange={e => setPaymentMode(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md mb-6 focus:outline-none focus:ring-2 focus:ring-pink-400 text-lg"
           >
             <option value="COD">Cash on Delivery</option>
             <option value="UPI">UPI</option>
@@ -100,10 +99,10 @@ function Cart() {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" onClick={onClose}>
         <div
-          className="bg-white p-10 rounded-2xl shadow-xl w-[400px] text-center"
+          className="bg-white p-10 rounded-2xl shadow-xl w-[400px] border border-pink-500 text-center transition-all"
           onClick={e => e.stopPropagation()}
         >
-          <h2 className="text-2xl font-bold mb-6 text-blue-600">Complete Your Payment</h2>
+          <h2 className="text-2xl font-bold mb-6 text-pink-500">Complete Your Payment</h2>
           <Button
             label="Complete Payment"
             variant="primary"
@@ -119,8 +118,9 @@ function Cart() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f8fa] flex flex-col">
-      <h1 className="text-4xl font-bold text-center text-blue-600 py-10">My Cart</h1>
+    <div className="min-h-screen bg-gradient-to-b from-pink-50 to-pink-100 text-gray-900 font-outfit">
+      <Navbar />
+      <h1 className="text-4xl font-extrabold text-center text-pink-600 py-10">🛍️ My Cart</h1>
 
       <div className="flex flex-col items-center px-4">
         {cart.length === 0 ? (
@@ -131,7 +131,7 @@ function Cart() {
             return (
               <div
                 key={productId}
-                className="bg-white shadow-lg rounded-2xl overflow-hidden m-4 px-6 py-5 w-full max-w-3xl flex flex-col md:flex-row items-center relative transition-transform hover:-translate-y-1"
+                className="bg-white border border-pink-200 shadow-lg shadow-pink-100 rounded-2xl overflow-hidden m-4 px-6 py-5 w-full max-w-3xl flex flex-col md:flex-row items-center relative hover:shadow-xl transition-all"
               >
                 <img
                   src={image}
@@ -142,10 +142,10 @@ function Cart() {
                   <h2 className="text-2xl font-bold text-gray-800">{name}</h2>
                   <p className="text-lg text-gray-600">₹ {price} /-</p>
                   <p className="text-lg text-gray-600">Quantity: {quantity}</p>
-                  <p className="text-lg font-semibold text-blue-600">Total: ₹ {totalValue} /-</p>
+                  <p className="text-lg font-semibold text-pink-500">Total: ₹ {totalValue} /-</p>
                 </div>
                 <button
-                  className="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white px-4 py-1 text-sm rounded-full transition"
+                  className="absolute bottom-2 right-4 bg-pink-500 hover:bg-pink-600 text-white px-4 py-1 text-sm rounded-full transition-shadow shadow-md"
                   onClick={() => removeItemFromCart(productId)}
                 >
                   Remove
@@ -158,9 +158,9 @@ function Cart() {
 
       {cart.length > 0 && (
         <div className="flex justify-center items-center py-6">
-          <span className="text-2xl font-bold text-gray-700 mr-6">Total: ₹ {total} /-</span>
+          <span className="text-2xl font-bold text-gray-800 mr-6">Total: ₹ {total} /-</span>
           <button
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full text-lg transition"
+            className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-full text-lg shadow-md hover:shadow-xl transition"
             onClick={() => setIsCheckoutOpen(true)}
           >
             Checkout
@@ -171,6 +171,7 @@ function Cart() {
       <CheckoutDialog isOpen={isCheckoutOpen} onClose={() => setIsCheckoutOpen(false)} />
       <PaymentDialog isPaymentOpen={isPaymentOpen} onClose={() => setIsPaymentOpen(false)} />
       <Toaster position="bottom-center" />
+      <Footer />
     </div>
   );
 }
