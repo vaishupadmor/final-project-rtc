@@ -7,20 +7,20 @@ import session from "express-session";
 
 import { responder } from './utils/utils.js';
 dotenv.config();
+
 const app =express();
 app.use(express.json());
 app.use(
     cors({
-      origin: "http://localhost:3000",
+      
+      origin:["http://localhost:3000","https://final-project-rtc.onrender.com/"],
       credentials: true,
       allowedHeaders: ["Content-Type", "Authorization"],
        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     })
   );
 
-  app.use(express.json());
-
-app.use(
+   app.use(
     session({
       secret: "test_secret",
       resave:false,
@@ -28,6 +28,7 @@ app.use(
       cookie: { maxAge: 1000 * 60 * 60, httpOnly: false, secure: false },
     })
   );
+
 import {postPayments} from "./controllers/payments.js"
 import {postProducts,getProducts} from "./controllers/products.js"
 import {postOrders,putOrders,getOrderById,getOrdersByUserId} from "./controllers/orders.js"

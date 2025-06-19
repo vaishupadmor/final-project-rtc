@@ -10,6 +10,8 @@ const Navbar = () => {
           <a href="/user/cart" className="hover:text-pink-400 transition">Cart</a>
           <a href="/user/orders" className="hover:text-pink-400 transition">UserOrders</a>
           <a href="/dashboard" className="hover:text-pink-400 transition">Dashboard</a>
+          <a href="/about" className="hover:text-pink-400 transition">About Us</a>
+          <a href="/contact" className="hover:text-pink-400 transition">Contact</a>
           <a href="/login" className="hover:text-pink-400 transition">Login</a>
           <a href="/signup" className="hover:text-pink-400 transition">Signup</a>
         </nav>
