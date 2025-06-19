@@ -8,6 +8,7 @@ import session from "express-session";
 import { responder } from './utils/utils.js';
 dotenv.config();
 const app =express();
+app.set('trust proxy', 1); 
 app.use(express.json());
 const allowedOrigins = [
   "http://localhost:3000",
