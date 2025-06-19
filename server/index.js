@@ -21,13 +21,19 @@ app.use(
   app.use(express.json());
 
 app.use(
-    session({
-      secret: "test_secret",
-      resave:false,
-      saveUninitialized:true,
-      cookie: { maxAge: 1000 * 60 * 60, httpOnly: false, secure: false },
-    })
-  );
+  session({
+    secret: "test_secret",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60,
+      httpOnly: true,
+      secure: true,
+      sameSite: "none", // allow cross-site cookies from Render frontend
+    },
+  })
+);
+
 import {postPayments} from "./controllers/payments.js"
 import {postProducts,getProducts} from "./controllers/products.js"
 import {postOrders,putOrders,getOrderById,getOrdersByUserId} from "./controllers/orders.js"
