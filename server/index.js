@@ -9,14 +9,26 @@ import { responder } from './utils/utils.js';
 dotenv.config();
 const app =express();
 app.use(express.json());
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://final-project-rtc.onrender.com"
+];
+
 app.use(
-    cors({
-      origin: ["https://final-project-rtc.onrender.com"],
-      credentials: true,
-      allowedHeaders: ["Content-Type", "Authorization"],
-       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-    })
-  );
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  })
+);
+
 
   app.use(express.json());
 
