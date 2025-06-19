@@ -7,47 +7,27 @@ import session from "express-session";
 
 import { responder } from './utils/utils.js';
 dotenv.config();
+
 const app =express();
-app.set('trust proxy', 1); 
 app.use(express.json());
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://final-project-rtc.onrender.com"
-];
-
 app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  })
-);
+    cors({
+      
+      origin:["http://localhost:3000","https://final-project-rtc.onrender.com/"],
+      credentials: true,
+      allowedHeaders: ["Content-Type", "Authorization"],
+       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    })
+  );
 
-
-  
-
-  app.options("*", cors());
-
-app.use(
-  session({
-    secret: "test_secret",
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      maxAge: 1000 * 60 * 60,
-      httpOnly: true,
-      secure: true,
-      sameSite: "none", 
-    },
-  })
-);
+   app.use(
+    session({
+      secret: "test_secret",
+      resave:false,
+      saveUninitialized:true,
+      cookie: { maxAge: 1000 * 60 * 60, httpOnly: false, secure: false },
+    })
+  );
 
 import {postPayments} from "./controllers/payments.js"
 import {postProducts,getProducts} from "./controllers/products.js"
