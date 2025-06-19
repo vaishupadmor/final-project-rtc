@@ -11,7 +11,7 @@ const app =express();
 app.use(express.json());
 app.use(
     cors({
-      origin: ["http://localhost:3000","https://final-project-rtc.onrender.com"],
+      origin: ["https://final-project-rtc.onrender.com"],
       credentials: true,
       allowedHeaders: ["Content-Type", "Authorization"],
        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
@@ -29,7 +29,7 @@ app.use(
       maxAge: 1000 * 60 * 60,
       httpOnly: true,
       secure: true,
-      sameSite: "none", // allow cross-site cookies from Render frontend
+      sameSite: "none", 
     },
   })
 );
